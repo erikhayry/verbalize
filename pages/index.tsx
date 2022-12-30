@@ -1,18 +1,40 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>Blandband</title>
-        <meta name="description" content="Turn your words to a playlist" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        blandband
-      </main>
-    </>
-  )
+    const { data: session } = useSession()
+    const [list, setList] = useState([])
+
+    const getMyPlaylists = async () => {
+        const res = await fetch('/api/search')
+        const { items } = await res.json()
+        console.log(items)
+
+        setList(items)
+    }
+
+    if (session) {
+        return (
+            <>
+                Signed in as {session?.token?.email} <br />
+                <button onClick={() => signOut()}>Sign out</button>
+                <hr />
+                <button onClick={() => getMyPlaylists()}>
+                    Get all my playlists
+                </button>
+                {list.map((item) => (
+                    <div key={item.id}>
+                        <h1>{item.name}</h1>
+                        <img src={item.images[0]?.url} width="100" />
+                    </div>
+                ))}
+            </>
+        )
+    }
+    return (
+        <>
+            Not signed in <br />
+            <button onClick={() => signIn()}>Sign in</button>
+        </>
+    )
 }
