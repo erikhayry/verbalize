@@ -4,10 +4,8 @@ import SpotifyProvider from 'next-auth/providers/spotify'
 export default NextAuth({
     providers: [
         SpotifyProvider({
-            authorization:
-                'https://accounts.spotify.com/authorize?scope=user-read-email,playlist-read-private',
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
+            clientId: process.env.CLIENT_ID || '',
+            clientSecret: process.env.CLIENT_SECRET || '',
         }),
     ],
     callbacks: {
@@ -17,9 +15,13 @@ export default NextAuth({
             }
             return token
         },
-        async session(session, user) {
-            session.user = user
-            return session
+
+        async session({ session, token, user }) {
+            return {
+                ...session,
+                token,
+                user,
+            }
         },
     },
 })

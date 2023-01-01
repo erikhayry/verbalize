@@ -1,19 +1,19 @@
-import { getUsersPlaylists } from 'lib/spotify'
+import { getSearchResult } from 'lib/spotify'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
-const handler = async (req, res) => {
-    const {
-        token: { accessToken },
-    } = await getSession({ req })
-    const response = await getUsersPlaylists(accessToken)
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = await getSession({ req })
 
-    const {
-        artists: { items },
-    } = await response.json()
+    if (session?.token.accessToken) {
+        const response = await getSearchResult(session.token.accessToken)
 
-    console.log(items)
+        const responseJson = await response.json()
 
-    return res.status(200).json({ items })
+        return res.status(200).json(responseJson)
+    }
+
+    return res.status(200).json({}) //TODO
 }
 
 export default handler

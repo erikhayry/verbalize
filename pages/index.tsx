@@ -3,29 +3,28 @@ import { useState } from 'react'
 
 export default function Home() {
     const { data: session } = useSession()
-    const [list, setList] = useState([])
 
-    const getMyPlaylists = async () => {
-        const res = await fetch('/api/search')
-        const { items } = await res.json()
-        console.log(items)
+    const [list, setList] = useState<
+        SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull> | undefined
+    >(undefined)
 
-        setList(items)
+    const search = async () => {
+        const respone = await fetch('/api/search')
+        const r = (await respone.json()) as SpotifyApi.SearchResponse
+
+        setList(r.tracks)
     }
 
     if (session) {
         return (
             <>
-                Signed in as {session?.token?.email} <br />
+                Signed in as {session.token?.email} <br />
                 <button onClick={() => signOut()}>Sign out</button>
                 <hr />
-                <button onClick={() => getMyPlaylists()}>
-                    Get all my playlists
-                </button>
-                {list.map((item) => (
+                <button onClick={search}>Search</button>
+                {list?.items.map((item) => (
                     <div key={item.id}>
                         <h1>{item.name}</h1>
-                        <img src={item.images[0]?.url} width="100" />
                     </div>
                 ))}
             </>
