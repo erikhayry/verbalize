@@ -10,7 +10,8 @@
         "test": "jest --watch",
         "test:ci": "jest --ci",
         "prettier": "npx prettier --config ./prettierrc.json --write .",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "coverage": "jest --coverage"
     },
     "dependencies": {
         "@next/font": "13.1.1",
