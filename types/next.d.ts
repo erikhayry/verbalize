@@ -14,4 +14,3 @@ declare module 'next/app' {
         }
     }
 }
-

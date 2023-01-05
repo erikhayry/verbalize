@@ -1,5 +1,7 @@
-export function Playlist(){
-    return <ul>
-        <li></li>
-    </ul>
+export function Playlist() {
+    return (
+        <ul>
+            <li></li>
+        </ul>
+    )
 }
