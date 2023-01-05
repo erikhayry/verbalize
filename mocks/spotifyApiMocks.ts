@@ -164,19 +164,37 @@ export const MOCK_TRACK_SEARCH_RESPONSE_4: SpotifyApi.TrackSearchResponse = {
     tracks: MOCK_PAGING_OBJECT_4,
 }
 
-export function MOCK_FETCH(req: Request): Promise<string> {
-    console.log(req.url)
-
-    switch (req.url) {
-        case '/api/search/?limit=50&offset=0':
-            return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_1))
-        case '/api/search/?limit=50&offset=50':
-            return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_2))
-        case '/api/search/?limit=50&offset=100':
-            return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_3))
-        case '/api/search/?limit=50&offset=150':
-            return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_4))
+export const MOCK_PAGING_OBJECT_5: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull> =
+    {
+        ...MOCK_PAGING_OBJECT_BASE,
+        items: [],
+        offset: 200,
     }
 
-    return Promise.reject(new Error('bad url'))
+export const MOCK_TRACK_SEARCH_RESPONSE_5: SpotifyApi.TrackSearchResponse = {
+    tracks: MOCK_PAGING_OBJECT_5,
+}
+
+export function MOCK_FETCH_RESPONSE_1(): Promise<string> {
+    return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_1))
+}
+
+export function MOCK_FETCH_RESPONSE_1_WITH_DELAY(): Promise<string> {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_1))
+        }, 5)
+    })
+}
+
+export function MOCK_FETCH_RESPONSE_2(): Promise<string> {
+    return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_2))
+}
+
+export function MOCK_FETCH_RESPONSE_3(): Promise<string> {
+    return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_3))
+}
+
+export function MOCK_FETCH_RESPONSE_4(): Promise<string> {
+    return Promise.resolve(JSON.stringify(MOCK_TRACK_SEARCH_RESPONSE_4))
 }

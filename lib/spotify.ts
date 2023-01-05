@@ -1,14 +1,37 @@
-const client_id = process.env.CLIENT_ID
-const client_secret = process.env.CLIENT_SECRET
-const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64')
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`
+const CLIENT_ID = process.env.CLIENT_ID
+const CLIENT_SECRET = process.env.CLIENT_SECRET
+const BASIC = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')
+const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token'
+const USER_ENDPOINT = 'https://api.spotify.com/v1/me'
 const SEARCH_ENDPOINT = 'https://api.spotify.com/v1/search?type=track'
+function ADD_TO_PLAYLIST_ENDPOINT(playlistId: string): string {
+    return `https://api.spotify.com/v1/playlists/${playlistId}/tracks`
+}
+function CREATE_PLAYLIST_ENDPOINT(userId: string): string {
+    return `https://api.spotify.com/v1/users/${userId}/playlists`
+}
 
-const getAccessToken = async (refreshToken: string) => {
+interface HEADERS {
+    headers: {
+        Authorization: string
+    }
+}
+
+function getHeaders(accessToken: string): HEADERS {
+    return {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    }
+}
+
+async function getAccessToken(
+    refreshToken: string
+): Promise<{ access_token: string }> {
     const response = await fetch(TOKEN_ENDPOINT, {
         method: 'POST',
         headers: {
-            Authorization: `Basic ${basic}`,
+            Authorization: `Basic ${BASIC}`,
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
@@ -20,27 +43,57 @@ const getAccessToken = async (refreshToken: string) => {
     return response.json()
 }
 
-export const getSearchResult = async (
+export async function getSearchResult(
     refreshToken: string,
     searchTerm: string,
     pagination: {
         offset: string
         limit: string
     }
-) => {
+) {
     const { access_token } = await getAccessToken(refreshToken)
     const { offset, limit } = pagination
+    const url = `${SEARCH_ENDPOINT}&q=${searchTerm}&offset=${offset}&limit=${limit}`
 
-    console.log(
-        `${SEARCH_ENDPOINT}&q=${searchTerm}&offset=${offset}&limit=${limit}`
-    )
+    return fetch(url, getHeaders(access_token))
+}
 
-    return fetch(
-        `${SEARCH_ENDPOINT}&q=${searchTerm}&offset=${offset}&limit=${limit}`,
-        {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-        }
-    )
+export async function getUserId(accessToken: string): Promise<string> {
+    const response = await fetch(USER_ENDPOINT, getHeaders(accessToken))
+    const user = await response.json()
+
+    return user.id
+}
+
+export async function createPlaylist(refreshToken: string) {
+    const { access_token } = await getAccessToken(refreshToken)
+    const userId = await getUserId(access_token)
+    const url = CREATE_PLAYLIST_ENDPOINT(userId)
+
+    return fetch(url, {
+        method: 'POST',
+        ...getHeaders(access_token),
+        body: JSON.stringify({
+            name: 'New Playlist',
+            description: 'New playlist description',
+            public: true,
+        }),
+    })
+}
+
+export async function addTracksToPlaylist(
+    refreshToken: string,
+    playlistId: string,
+    tracks: string[]
+) {
+    const { access_token } = await getAccessToken(refreshToken)
+    const url = ADD_TO_PLAYLIST_ENDPOINT(playlistId)
+
+    return fetch(url, {
+        method: 'POST',
+        ...getHeaders(access_token),
+        body: JSON.stringify({
+            uris: tracks,
+        }),
+    })
 }

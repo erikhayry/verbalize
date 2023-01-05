@@ -1,9 +1,10 @@
 import { ChangeEvent, useState } from 'react'
-import { Track } from 'verbalize'
+import { SearchResultItem } from 'verbalize'
+import { savePLaylist } from './playlistUtils'
 import { search } from './searchUtils'
 
 export function Search() {
-    const [result, setResult] = useState<Track[]>([])
+    const [result, setResult] = useState<SearchResultItem[]>([])
     const [searchTerm, setSearchTerm] = useState<string>('')
 
     async function handleSearch(currentSearchTerm: string) {
@@ -13,6 +14,10 @@ export function Search() {
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value)
+    }
+
+    async function handleSave(searchResultItems: SearchResultItem[]) {
+        await savePLaylist(searchResultItems)
     }
 
     return (
@@ -34,8 +39,8 @@ export function Search() {
             {result && (
                 <div>
                     <>
-                        {result.map(({ track, searchTerm }, index) => (
-                            <span key={index}>
+                        {result.map(({ track, searchTerm }) => (
+                            <span key={track?.id}>
                                 <>
                                     {track && <i>{track.name}</i>}
                                     {!track && <b>{searchTerm}</b>}
@@ -43,6 +48,13 @@ export function Search() {
                             </span>
                         ))}
                     </>
+                    <button
+                        onClick={() => {
+                            handleSave(result)
+                        }}
+                    >
+                        Save playlist
+                    </button>
                 </div>
             )}
         </div>

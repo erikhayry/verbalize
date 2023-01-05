@@ -3,8 +3,8 @@ import { SearchResultItem, Track } from 'verbalize'
 const SEARCH_LIMIT = 50
 const MAX_NUMBER_OF_REQUESTS = 4
 
-function toTrack({ name }: SpotifyApi.TrackObjectFull): Track {
-    return { name }
+function toTrack({ name, uri }: SpotifyApi.TrackObjectFull): Track {
+    return { name, id: uri }
 }
 
 function outInexactItems(searchTerm: string, name: string): boolean {
@@ -24,11 +24,11 @@ function getTrackFromResponse(
 
 async function fetchTracks(
     searchTerm: string,
-    offset = 0
+    offset: number
 ): Promise<SpotifyApi.TrackSearchResponse> {
-    const responeJSON = await fetch(
-        `/api/search/${searchTerm}?limit=${50}&offset=${offset}`
-    )
+    const url = `/api/search/${searchTerm}?limit=${50}&offset=${offset}`
+    const responeJSON = await fetch(url)
+
     return await responeJSON.json()
 }
 
@@ -39,7 +39,7 @@ interface TrackResponse {
 
 async function searchTrack(
     searchTerm: string,
-    offset?: number
+    offset: number
 ): Promise<TrackResponse> {
     const {
         tracks: { items, offset: nextOffset },
@@ -52,8 +52,7 @@ async function searchTrack(
 }
 
 async function toSearchTrackQuery(
-    searchTerm: string,
-    index: number
+    searchTerm: string
 ): Promise<SearchResultItem> {
     let track: Track | undefined = undefined
     let i = 0
@@ -64,6 +63,7 @@ async function toSearchTrackQuery(
             searchTerm,
             nextOffset
         )
+
         track = foundTrack
         nextOffset = offset
         i++
@@ -72,7 +72,6 @@ async function toSearchTrackQuery(
     return {
         searchTerm,
         track,
-        index,
     }
 }
 
@@ -80,14 +79,10 @@ function getSearchTerms(searchTerm: string): string[] {
     return searchTerm.split(' ')
 }
 
-function byIndex(itemA: SearchResultItem, itemB: SearchResultItem) {
-    return itemA.index - itemB.index
-}
-
 export async function search(searchTerm: string): Promise<SearchResultItem[]> {
     const searchTerms = getSearchTerms(searchTerm)
     const searchTrackQueries = searchTerms.map(toSearchTrackQuery)
     const searchResultItems = await Promise.all(searchTrackQueries)
 
-    return searchResultItems.sort(byIndex)
+    return searchResultItems
 }
