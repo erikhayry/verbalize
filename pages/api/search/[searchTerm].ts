@@ -6,7 +6,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req })
 
     if (session?.token.accessToken) {
-        const response = await getSearchResult(session.token.accessToken)
+        const { searchTerm, offset, limit } = req.query
+        const response = await getSearchResult(
+            session.token.accessToken,
+            searchTerm as string,
+            {
+                offset: offset as string,
+                limit: limit as string,
+            }
+        )
 
         const responseJson = await response.json()
 

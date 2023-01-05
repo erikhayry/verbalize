@@ -15,6 +15,3 @@ declare module 'next/app' {
     }
 }
 
-declare module 'spotify-api' {
-    export = SpotifyApi
-}
