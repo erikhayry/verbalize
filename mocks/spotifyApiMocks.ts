@@ -4,11 +4,17 @@ const MOCK_EXTERNAL_URL: SpotifyApi.ExternalUrlObject = {
 
 const MOCK_EXTERNAL_IDS: SpotifyApi.ExternalIdObject = {}
 
+const MOCK_IMAGE: SpotifyApi.ImageObject = {
+    url: 'url',
+    width: 100,
+    height: 100,
+}
+
 const MOCK_ALBUM: SpotifyApi.AlbumObjectSimplified = {
     album_type: 'album',
     artists: [],
     id: '',
-    images: [],
+    images: [MOCK_IMAGE],
     name: '',
     release_date: '',
     release_date_precision: 'year',

@@ -1,2 +1,26 @@
+:root {
+    --primary-color: #fff;
+    --secondary-color: #222;
+    --unit: 16px;
+    --font-family: 'Gill Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#__next {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+}
+
 body {
+    padding: var(--unit);
+    margin: 0;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-family: var(--font-family);
 }

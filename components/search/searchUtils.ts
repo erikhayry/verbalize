@@ -3,8 +3,14 @@ import { SearchResultItem, Track } from 'verbalize'
 const SEARCH_LIMIT = 50
 const MAX_NUMBER_OF_REQUESTS = 4
 
-function toTrack({ name, uri }: SpotifyApi.TrackObjectFull): Track {
-    return { name, id: uri }
+function toTrack({
+    name,
+    uri,
+    album: {
+        images: [{ url, width = 100, height = 100 }],
+    },
+}: SpotifyApi.TrackObjectFull): Track {
+    return { name, id: uri, image: { src: url, width, height } }
 }
 
 function outInexactItems(searchTerm: string, name: string): boolean {
