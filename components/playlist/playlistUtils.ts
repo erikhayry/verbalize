@@ -1,9 +1,10 @@
 import { SearchResultItem, Track } from 'verbalize'
 
 async function addToPlaylist(
+    name: string,
     tracks: string[]
 ): Promise<SpotifyApi.TrackSearchResponse> {
-    const url = `/api/playlist/create?tracks=${tracks.join(',')}`
+    const url = `/api/playlist/create?tracks=${tracks.join(',')}&name=${name}`
     const responeJSON = await fetch(url)
 
     return await responeJSON.json()
@@ -21,13 +22,24 @@ function outMissingTracks(track: Track | undefined): track is Track {
     return Boolean(track)
 }
 
+function toName(name: string, { searchTerm }: SearchResultItem): string {
+    return `${name} ${searchTerm}`
+}
+
+function getName(searchResultItems: SearchResultItem[]): string {
+    const sentence = searchResultItems.slice(0, 5).reduce(toName, '')
+
+    return `${sentence}... by V E R B A L I Z E`
+}
+
 export async function savePLaylist(
     searchResultItems: SearchResultItem[]
 ): Promise<void> {
+    const name = getName(searchResultItems)
     const ids = searchResultItems
         .map(toTrack)
         .filter(outMissingTracks)
         .map(toId)
 
-    await addToPlaylist(ids)
+    await addToPlaylist(name, ids)
 }

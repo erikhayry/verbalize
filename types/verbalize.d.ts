@@ -9,6 +9,7 @@ declare module 'verbalize' {
         id: string
         name: string
         image: Image
+        artists: string[]
     }
 
     interface SearchResultItem {

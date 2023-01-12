@@ -65,7 +65,7 @@ export async function getUserId(accessToken: string): Promise<string> {
     return user.id
 }
 
-export async function createPlaylist(refreshToken: string) {
+export async function createPlaylist(refreshToken: string, name: string) {
     const { access_token } = await getAccessToken(refreshToken)
     const userId = await getUserId(access_token)
     const url = CREATE_PLAYLIST_ENDPOINT(userId)
@@ -74,8 +74,8 @@ export async function createPlaylist(refreshToken: string) {
         method: 'POST',
         ...getHeaders(access_token),
         body: JSON.stringify({
-            name: 'New Playlist',
-            description: 'New playlist description',
+            name,
+            description: 'Playlist created by the VERBALIZE app',
             public: true,
         }),
     })

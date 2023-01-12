@@ -3,14 +3,24 @@ import { SearchResultItem, Track } from 'verbalize'
 const SEARCH_LIMIT = 50
 const MAX_NUMBER_OF_REQUESTS = 4
 
+function toArtist({ name }: SpotifyApi.ArtistObjectSimplified): string {
+    return name
+}
+
 function toTrack({
     name,
     uri,
     album: {
         images: [{ url, width = 100, height = 100 }],
     },
+    artists,
 }: SpotifyApi.TrackObjectFull): Track {
-    return { name, id: uri, image: { src: url, width, height } }
+    return {
+        name,
+        id: uri,
+        image: { src: url, width, height },
+        artists: artists.map(toArtist),
+    }
 }
 
 function outInexactItems(searchTerm: string, name: string): boolean {
@@ -82,7 +92,9 @@ async function toSearchTrackQuery(
 }
 
 function getSearchTerms(searchTerm: string): string[] {
-    return searchTerm.split(' ')
+    const searchTermAlphaNumeric = searchTerm.replace(/[^a-z0-9 ]+/gi, '')
+
+    return searchTermAlphaNumeric.split(' ')
 }
 
 export async function search(searchTerm: string): Promise<SearchResultItem[]> {

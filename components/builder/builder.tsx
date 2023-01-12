@@ -3,25 +3,59 @@ import { SearchResultItem } from 'verbalize'
 import { Playlist } from '../playlist/playlist'
 import { Search } from '../search/search'
 
-export function Builder() {
-    const [resultItems, setResult] = useState<SearchResultItem[] | undefined>(
-        undefined
-    )
+enum View {
+    LOADING = 'LOADING',
+    SEARCH = 'SEARCH',
+    PLAYLIST = 'PLAYLIST',
+    SUCCESS = 'SUCCESS',
+}
 
-    const handleSearch = (searchResultItems: SearchResultItem[]) => {
-        setResult(searchResultItems)
+type State = {
+    resultItems: SearchResultItem[]
+    currentView: View
+}
+
+export function Builder() {
+    const [state, setState] = useState<State>({
+        resultItems: [],
+        currentView: View.SEARCH,
+    })
+
+    const handleSearch = (resultItems: SearchResultItem[]) => {
+        setState({
+            currentView: View.PLAYLIST,
+            resultItems,
+        })
     }
 
     const handleSaveCompleted = () => {
-        setResult(undefined)
+        setState({
+            currentView: View.SUCCESS,
+            resultItems: [],
+        })
+    }
+
+    const handleLoading = () => {
+        setState((prev) => ({
+            ...prev,
+            currentView: View.LOADING,
+        }))
     }
 
     return (
         <>
-            {!resultItems && <Search onSearchCompleted={handleSearch} />}
-            {resultItems && (
+            {state.currentView === View.LOADING && <h1>Loading...</h1>}
+            {state.currentView === View.SUCCESS && <h1>Success!</h1>}
+            {state.currentView === View.SEARCH && (
+                <Search
+                    onSearchCompleted={handleSearch}
+                    onLoading={handleLoading}
+                />
+            )}
+            {state.currentView === View.PLAYLIST && (
                 <Playlist
-                    items={resultItems}
+                    items={state.resultItems}
+                    onLoading={handleLoading}
                     onSaveCompleted={handleSaveCompleted}
                 />
             )}

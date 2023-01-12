@@ -8,6 +8,8 @@ import {
     MOCK_TRACK_1,
     MOCK_TRACK_10,
     MOCK_TRACK_2,
+    MOCK_TRACK_4,
+    MOCK_TRACK_7,
 } from '../../mocks/spotifyApiMocks'
 import { search } from './searchUtils'
 
@@ -19,6 +21,7 @@ beforeEach(() => {
         .mockResponseOnce(MOCK_FETCH_RESPONSE_2)
         .mockResponseOnce(MOCK_FETCH_RESPONSE_3)
         .mockResponseOnce(MOCK_FETCH_RESPONSE_4)
+        .mockResponse(MOCK_FETCH_RESPONSE_1)
 })
 
 afterEach(() => {
@@ -56,5 +59,17 @@ describe('search', () => {
         const [{ track }] = await search(MOCK_TRACK_10.name)
 
         expect(track?.name).toEqual(MOCK_TRACK_10.name)
+    })
+
+    test('search term is alpha numeric', async () => {
+        const searchResult = await search(
+            `#"${MOCK_TRACK_1.name} ${MOCK_TRACK_4.name}", ${MOCK_TRACK_7.name}!`
+        )
+        const [{ track: track1 }, { track: track2 }, { track: track3 }] =
+            searchResult
+
+        expect(track1?.name).toEqual(MOCK_TRACK_1.name)
+        expect(track2?.name).toEqual(MOCK_TRACK_4.name)
+        expect(track3?.name).toEqual(MOCK_TRACK_7.name)
     })
 })

@@ -5,14 +5,16 @@ import { search } from './searchUtils'
 
 interface IProps {
     onSearchCompleted: (searchResultItems: SearchResultItem[]) => void
+    onLoading: () => void
 }
 
-export function Search({ onSearchCompleted: onSearch }: IProps) {
+export function Search({ onSearchCompleted, onLoading }: IProps) {
     const [searchTerm, setSearchTerm] = useState<string>('')
 
     async function handleSearch(currentSearchTerm: string) {
+        onLoading()
         const result = await search(currentSearchTerm)
-        onSearch(result)
+        onSearchCompleted(result)
     }
 
     function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -28,7 +30,6 @@ export function Search({ onSearchCompleted: onSearch }: IProps) {
                 onChange={handleInputChange}
             />
             <button
-                className={styles.searchButton}
                 disabled={searchTerm.length === 0}
                 onClick={() => {
                     handleSearch(searchTerm)

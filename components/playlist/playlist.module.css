@@ -6,47 +6,45 @@
 
 .playlist {
     flex-grow: 1;
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
-    gap: 16px;
-    text-transform: uppercase;
-    font-size: 50px;
+    gap: var(--unit);
     flex-wrap: wrap;
     align-content: center;
-    font-weight: 900;
+    font-weight: var(--font-weight);
+    font-size: var(--font-size);
+    letter-spacing: var(--letter-spacing);
+    word-spacing: var(--word-spacing);
+    height: 100%;
+    overflow: auto;
+    line-height: 1;
 }
 
 .playlistItem {
     position: relative;
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent;
+    color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
 }
 
-.playlistItemImage {
-    color: transparent;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    object-fit: cover;
-    opacity: 1;
-    z-index: -1;
+.artistsWrapper{
+    font-size: var(--font-size-small);
+        letter-spacing: var(--letter-spacing-small);
+        word-spacing: var(--word-spacing-small);
+            font-weight: var(--font-weight);
+                opacity: 0.4;
+                    display: flex;
+                    gap: var(--unit)
 }
 
-.saveButton {
-    border: none;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: var(--unit);
-    font-family: var(--font-family);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 50px;
-    letter-spacing: 10px;
-    word-spacing: 25px;
-    cursor: pointer;
+.artists{
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.artist{
+
+
 }

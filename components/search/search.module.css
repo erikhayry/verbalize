@@ -1,5 +1,6 @@
 .wrapper {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -11,32 +12,19 @@
     padding: var(--unit);
     border: none;
     color: var(--primary-color);
-    font-size: 100px;
-    letter-spacing: -10px;
-    word-spacing: 50px;
     width: 100%;
     box-sizing: border-box;
     resize: none;
     font-family: var(--font-family);
-    font-weight: 900;
+    font-weight: var(--font-weight);
     text-transform: uppercase;
     flex-grow: 1;
+
+            font-size: var(--font-size-large);
+                letter-spacing: var(--letter-spacing-large);
+                word-spacing: var(--word-spacing-large);
 }
 
 .input:focus {
     outline: none;
-}
-
-.searchButton {
-    border: none;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    padding: var(--unit);
-    font-family: var(--font-family);
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 50px;
-    letter-spacing: 10px;
-    word-spacing: 25px;
-    cursor: pointer;
 }

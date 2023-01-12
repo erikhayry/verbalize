@@ -2,8 +2,8 @@ import { addTracksToPlaylist, createPlaylist } from 'lib/spotify'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 
-async function create(accessToken: string) {
-    const response = await createPlaylist(accessToken)
+async function create(accessToken: string, name: string) {
+    const response = await createPlaylist(accessToken, name)
 
     return await response.json()
 }
@@ -18,22 +18,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req })
 
     if (session?.token.accessToken) {
-        const { tracks } = req.query
+        const { tracks, name } = req.query
 
         try {
-            const playlist = await create(session.token.accessToken)
-            console.log(playlist)
-
-            await addTracks(
+            const playlist = await create(
+                session.token.accessToken,
+                name as string
+            )
+            const playlistWithTracks = await addTracks(
                 session.token.accessToken,
                 playlist.id,
                 (tracks as string).split(',')
             )
+
+            return res.status(200).json(playlistWithTracks)
         } catch (e) {
             console.log(e)
-        }
 
-        return res.status(200).json({})
+            return res.status(200).json({}) //TODO
+        }
     }
 
     return res.status(200).json({}) //TODO
