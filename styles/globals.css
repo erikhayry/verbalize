@@ -21,18 +21,19 @@
 
 @media (min-width: 800px) {
     :root {
-            --unit: 16px;
+        --unit: 16px;
         --font-size-small: 10px;
         --font-size: 50px;
         --font-size-large: 100px;
-            --font-weight: 900;
+        --font-weight: 900;
     }
 }
 
 * {
     box-sizing: border-box;
     text-transform: uppercase;
-    animation: fadein 300ms;
+    animation: fadein 1000ms;
+    transition: all 300ms ease-in-out;
 }
 
 @keyframes fadein {
@@ -53,15 +54,26 @@ body,
     width: 100%;
 }
 
+html{
+    opacity: 1;
+    background-color: #222;
+}
+
 body {
     padding: var(--unit);
     margin: 0;
     background-color: var(--secondary-color);
     color: var(--primary-color);
     font-family: var(--font-family);
+        font-family: var(--font-family);
+            font-weight: var(--font-weight);
+            text-transform: uppercase;
+            font-size: var(--font-size);
+            letter-spacing: var(--letter-spacing);
+            word-spacing: var(--word-spacing);
 }
 
-button{
+button {
     border: none;
     background-color: var(--primary-color);
     color: var(--secondary-color);
@@ -73,14 +85,31 @@ button{
     letter-spacing: var(--letter-spacing);
     word-spacing: var(--word-spacing);
     cursor: pointer;
+    opacity: 1;
+    width: 100%;
 }
 
-button:hover {
-    
+*:has(button:hover) {
+    --primary-color: #222;
+    --secondary-color: #fff;
 }
 
-ul, ol{
-        list-style: none;
-            padding: 0;
-            margin: 0;
+*:has(a:hover) {
+    --primary-color: #222;
+    --secondary-color: #fff;
+}
+
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a:link, a:focus, a:hover, a:visited{
+    color: var(--primary-color);
+        font-family: var(--font-family);
+        text-decoration: none;
+        text-align: center;
 }

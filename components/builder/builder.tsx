@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { SearchResultItem } from 'verbalize'
-import { Playlist } from '../playlist/playlist'
+import { Playlist, SearchResultItem } from 'verbalize'
+import { Playlist as PlaylistEl } from '../playlist/playlist'
 import { Search } from '../search/search'
+import { Success } from './success'
 
 enum View {
     LOADING = 'LOADING',
@@ -12,14 +13,17 @@ enum View {
 
 type State = {
     resultItems: SearchResultItem[]
+    playlist?: Playlist
     currentView: View
 }
 
+const INITIAL_STATE: State = {
+    resultItems: [],
+    currentView: View.SEARCH,
+}
+
 export function Builder() {
-    const [state, setState] = useState<State>({
-        resultItems: [],
-        currentView: View.SEARCH,
-    })
+    const [state, setState] = useState<State>(INITIAL_STATE)
 
     const handleSearch = (resultItems: SearchResultItem[]) => {
         setState({
@@ -28,9 +32,10 @@ export function Builder() {
         })
     }
 
-    const handleSaveCompleted = () => {
+    const handleSaveCompleted = (playlist: Playlist) => {
         setState({
             currentView: View.SUCCESS,
+            playlist,
             resultItems: [],
         })
     }
@@ -42,10 +47,16 @@ export function Builder() {
         }))
     }
 
+    const handleRedo = () => {
+        setState(INITIAL_STATE)
+    }
+
     return (
         <>
-            {state.currentView === View.LOADING && <h1>Loading...</h1>}
-            {state.currentView === View.SUCCESS && <h1>Success!</h1>}
+            {state.currentView === View.LOADING && <h1>Loading</h1>}
+            {state.currentView === View.SUCCESS && state.playlist && (
+                <Success playlist={state.playlist} onRedo={handleRedo} />
+            )}
             {state.currentView === View.SEARCH && (
                 <Search
                     onSearchCompleted={handleSearch}
@@ -53,7 +64,7 @@ export function Builder() {
                 />
             )}
             {state.currentView === View.PLAYLIST && (
-                <Playlist
+                <PlaylistEl
                     items={state.resultItems}
                     onLoading={handleLoading}
                     onSaveCompleted={handleSaveCompleted}

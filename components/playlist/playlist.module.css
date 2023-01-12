@@ -1,11 +1,4 @@
-.wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
 .playlist {
-    flex-grow: 1;
     display: flex;
     gap: var(--unit);
     flex-wrap: wrap;
@@ -28,23 +21,17 @@
     flex-direction: column;
 }
 
-.artistsWrapper{
+.artistsWrapper {
     font-size: var(--font-size-small);
-        letter-spacing: var(--letter-spacing-small);
-        word-spacing: var(--word-spacing-small);
-            font-weight: var(--font-weight);
-                opacity: 0.4;
-                    display: flex;
-                    gap: var(--unit)
+    letter-spacing: 0;
+    word-spacing: 0;
+    font-weight: 300;
+    opacity: 0.4;
+    display: flex;
+    gap: var(--unit);
 }
 
-.artists{
+.artists {
     display: flex;
     flex-wrap: wrap;
-
-}
-
-.artist{
-
-
 }

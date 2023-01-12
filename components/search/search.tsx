@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import { SearchResultItem } from 'verbalize'
+import { View } from '../view/view'
 import styles from './search.module.css'
 import { search } from './searchUtils'
 
@@ -22,21 +23,25 @@ export function Search({ onSearchCompleted, onLoading }: IProps) {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <textarea
-                placeholder="write your sentence here"
-                className={styles.input}
-                value={searchTerm}
-                onChange={handleInputChange}
-            />
-            <button
-                disabled={searchTerm.length === 0}
-                onClick={() => {
-                    handleSearch(searchTerm)
-                }}
-            >
-                Build playlist
-            </button>
-        </div>
+        <View
+            content={
+                <textarea
+                    placeholder="write your sentence here"
+                    className={styles.input}
+                    value={searchTerm}
+                    onChange={handleInputChange}
+                />
+            }
+            nav={
+                <button
+                    disabled={searchTerm.length === 0}
+                    onClick={() => {
+                        handleSearch(searchTerm)
+                    }}
+                >
+                    Build playlist
+                </button>
+            }
+        ></View>
     )
 }

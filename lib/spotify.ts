@@ -75,7 +75,7 @@ export async function createPlaylist(refreshToken: string, name: string) {
         ...getHeaders(access_token),
         body: JSON.stringify({
             name,
-            description: 'Playlist created by the VERBALIZE app',
+            description: 'Playlist created by the V E R B A L I Z E app',
             public: true,
         }),
     })

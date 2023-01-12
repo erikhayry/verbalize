@@ -12,6 +12,11 @@ declare module 'verbalize' {
         artists: string[]
     }
 
+    interface Playlist {
+        name: string
+        url: string
+    }
+
     interface SearchResultItem {
         searchTerm: string
         track: Track | undefined

@@ -1,10 +1,3 @@
-.wrapper {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
 .input {
     --secondary-color-alpha: 0.8;
     background-color: var(--secondary-color);
@@ -13,16 +6,15 @@
     border: none;
     color: var(--primary-color);
     width: 100%;
+    height: 100%;
     box-sizing: border-box;
     resize: none;
     font-family: var(--font-family);
     font-weight: var(--font-weight);
     text-transform: uppercase;
-    flex-grow: 1;
-
-            font-size: var(--font-size-large);
-                letter-spacing: var(--letter-spacing-large);
-                word-spacing: var(--word-spacing-large);
+    font-size: var(--font-size-large);
+    letter-spacing: var(--letter-spacing-large);
+    word-spacing: var(--word-spacing-large);
 }
 
 .input:focus {
