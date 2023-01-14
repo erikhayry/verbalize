@@ -1,30 +1,31 @@
 :root {
     --primary-color: #fff;
     --secondary-color: #222;
-    --unit: 8px;
+    --unit: 0.5rem;
+    --font-size-base: 8px;
     --font-family: 'Gill Sans', sans-serif;
 
-    --font-size-small: 8px;
+    --font-size-small: 1rem;
     --letter-spacing-small: calc(var(--font-size-small) / 5);
     --word-spacing-small: calc(var(var(--font-size-small) / 2));
 
-    --font-size: 25px;
+    --font-size: 2rem;
     --letter-spacing: calc(var(--font-size) / 5);
     --word-spacing: calc(var(var(--font-size) / 2));
 
-    --font-size-large: 50px;
+    --font-size-large: 4rem;
     --letter-spacing-large: calc(var(--font-size-large) / 5);
     --word-spacing-large: calc(var(var(--font-size-large) / 2));
 
     --font-weight: 700;
+
+    --unfocus-blur: 0;
 }
 
 @media (min-width: 800px) {
     :root {
-        --unit: 16px;
-        --font-size-small: 10px;
-        --font-size: 50px;
-        --font-size-large: 100px;
+        --font-size-base: 16px;
+        --unit: 1rem;
         --font-weight: 900;
     }
 }
@@ -32,7 +33,6 @@
 * {
     box-sizing: border-box;
     text-transform: uppercase;
-    animation: fadein 1000ms;
     transition: all 300ms ease-in-out;
 }
 
@@ -52,9 +52,10 @@ body,
     min-height: 100%;
     height: 100%;
     width: 100%;
+    font-size: var(--font-size-base);
 }
 
-html{
+html {
     opacity: 1;
     background-color: #222;
 }
@@ -65,12 +66,12 @@ body {
     background-color: var(--secondary-color);
     color: var(--primary-color);
     font-family: var(--font-family);
-        font-family: var(--font-family);
-            font-weight: var(--font-weight);
-            text-transform: uppercase;
-            font-size: var(--font-size);
-            letter-spacing: var(--letter-spacing);
-            word-spacing: var(--word-spacing);
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+    text-transform: uppercase;
+    font-size: var(--font-size);
+    letter-spacing: var(--letter-spacing);
+    word-spacing: var(--word-spacing);
 }
 
 button {
@@ -87,18 +88,40 @@ button {
     cursor: pointer;
     opacity: 1;
     width: 100%;
+    transform: translateY(100%);
+    animation-delay: 1000ms;
+    animation-name: up;
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+
+button:disabled {
+    opacity: 0.5;
 }
 
 *:has(button:hover) {
-    --primary-color: #222;
-    --secondary-color: #fff;
+    /*--unfocus-blur: 20px*/
+}
+
+button:hover:not(:disabled) {
+    --primary-color: yellow;
+    --secondary-color: pink;
 }
 
 *:has(a:hover) {
     --primary-color: #222;
     --secondary-color: #fff;
 }
-
 
 ul,
 ol {
@@ -107,9 +130,12 @@ ol {
     margin: 0;
 }
 
-a:link, a:focus, a:hover, a:visited{
+a:link,
+a:focus,
+a:hover,
+a:visited {
     color: var(--primary-color);
-        font-family: var(--font-family);
-        text-decoration: none;
-        text-align: center;
+    font-family: var(--font-family);
+    text-decoration: none;
+    text-align: center;
 }

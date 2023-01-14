@@ -15,7 +15,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 limit: limit as string,
             }
         )
-
         const responseJson = await response.json()
 
         return res.status(200).json(responseJson)

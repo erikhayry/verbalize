@@ -22,33 +22,43 @@ async function addTracks(
     return response.json()
 }
 
+async function createPlayListWithTracks(
+    accessToken: string,
+    name: string,
+    tracks: string
+): Promise<Playlist> {
+    const {
+        id,
+        external_urls: { spotify: url },
+    } = await create(accessToken, name)
+    await addTracks(accessToken, id, tracks.split(','))
+
+    return {
+        name,
+        url,
+    }
+}
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req })
 
     if (session?.token.accessToken) {
         const { tracks, name } = req.query as { tracks: string; name: string }
         const { accessToken } = session.token
+        const playlist = await createPlayListWithTracks(
+            accessToken,
+            name,
+            tracks
+        )
 
         try {
-            const newPlaylist = await create(accessToken, name)
-            const tracksString = tracks.split(',')
-
-            await addTracks(accessToken, newPlaylist.id, tracksString)
-
-            const playlist: Playlist = {
-                name: newPlaylist.name,
-                url: newPlaylist.external_urls.spotify,
-            }
-
             return res.status(200).json(playlist)
         } catch (e) {
-            console.log(e)
-
-            return res.status(200).json({}) //TODO
+            return res.status(404)
         }
     }
 
-    return res.status(200).json({}) //TODO
+    return res.status(403)
 }
 
 export default handler

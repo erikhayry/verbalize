@@ -12,9 +12,7 @@ function CREATE_PLAYLIST_ENDPOINT(userId: string): string {
 }
 
 interface HEADERS {
-    headers: {
-        Authorization: string
-    }
+    headers: Record<string, string>
 }
 
 function getHeaders(accessToken: string): HEADERS {

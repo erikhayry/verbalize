@@ -1,3 +1,4 @@
+import { ApiResponse, ApiResponseType } from '@/pages/api/interface/api'
 import { SearchResultItem, Track } from 'verbalize'
 
 const SEARCH_LIMIT = 50
@@ -91,16 +92,31 @@ async function toSearchTrackQuery(
     }
 }
 
-function getSearchTerms(searchTerm: string): string[] {
-    const searchTermAlphaNumeric = searchTerm.replace(/[^a-z0-9 ]+/gi, '')
-
-    return searchTermAlphaNumeric.split(' ')
+function outEmpty(searchTerm: string): boolean {
+    return searchTerm !== ''
 }
 
-export async function search(searchTerm: string): Promise<SearchResultItem[]> {
-    const searchTerms = getSearchTerms(searchTerm)
-    const searchTrackQueries = searchTerms.map(toSearchTrackQuery)
-    const searchResultItems = await Promise.all(searchTrackQueries)
+function getSearchTerms(searchTerm: string): string[] {
+    const searchTermAlphaNumeric = searchTerm.replace(/[^a-z0-9 ]+/gi, ' ')
 
-    return searchResultItems
+    return searchTermAlphaNumeric.split(' ').filter(outEmpty)
+}
+
+export async function search(
+    searchTerm: string
+): Promise<ApiResponse<SearchResultItem[]>> {
+    try {
+        const searchTerms = getSearchTerms(searchTerm)
+        const searchTrackQueries = searchTerms.map(toSearchTrackQuery)
+        const searchResultItems = await Promise.all(searchTrackQueries)
+
+        return {
+            type: ApiResponseType.SUCCES,
+            data: searchResultItems,
+        }
+    } catch (e) {
+        return {
+            type: ApiResponseType.ERROR,
+        }
+    }
 }

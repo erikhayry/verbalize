@@ -1,3 +1,4 @@
+import { ApiResponseType } from '@/pages/api/interface/api'
 import { ChangeEvent, useState } from 'react'
 import { SearchResultItem } from 'verbalize'
 import { View } from '../view/view'
@@ -15,7 +16,13 @@ export function Search({ onSearchCompleted, onLoading }: IProps) {
     async function handleSearch(currentSearchTerm: string) {
         onLoading()
         const result = await search(currentSearchTerm)
-        onSearchCompleted(result)
+        if (result.type === ApiResponseType.SUCCES) {
+            onSearchCompleted(result.data)
+        } else {
+            console.log('error')
+        }
+
+        //TODO error
     }
 
     function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
