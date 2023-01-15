@@ -1,13 +1,13 @@
 export enum ApiResponseType {
-    SUCCES = 'SUCCES',
+    SUCCES = 'SUCCESS',
     ERROR = 'ERROR',
 }
 
-export type ApiResponse<T> =
-    | {
-          type: ApiResponseType.ERROR
-      }
+export type ApiResponse<DataType> =
     | {
           type: ApiResponseType.SUCCES
-          data: T
+          data: DataType
+      }
+    | {
+          type: ApiResponseType.ERROR
       }
