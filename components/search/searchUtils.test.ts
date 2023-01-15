@@ -51,9 +51,9 @@ describe('search', () => {
 
     test.skip('returns error', async () => {
         fetchMock.mockReject()
-        const {
-            type
-        } = (await search('UNKNOWN')) as UnsuccesfulSearchApiResponse
+        const { type } = (await search(
+            'UNKNOWN'
+        )) as UnsuccesfulSearchApiResponse
 
         expect(type).toEqual(ApiResponseType.ERROR)
     })

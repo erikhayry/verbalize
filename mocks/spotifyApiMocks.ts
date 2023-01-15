@@ -1,4 +1,4 @@
-import { ExternalUrlObject } from "spotify-api"
+import { ExternalUrlObject } from 'spotify-api'
 
 const MOCK_EXTERNAL_URL: SpotifyApi.ExternalUrlObject = {
     spotify: '',
@@ -27,17 +27,17 @@ const MOCK_ALBUM: SpotifyApi.AlbumObjectSimplified = {
     uri: '',
 }
 
-const MOCK_ARTIST_URL:ExternalUrlObject = {
-    spotify: "artist.url"
+const MOCK_ARTIST_URL: ExternalUrlObject = {
+    spotify: 'artist.url',
 }
 
 const MOCK_ARTIST_BASE: SpotifyApi.ArtistObjectSimplified = {
-    name: "artist",
-    id: "",
-    type: "artist",
-    href: "",
+    name: 'artist',
+    id: '',
+    type: 'artist',
+    href: '',
     external_urls: MOCK_ARTIST_URL,
-    uri: ""
+    uri: '',
 }
 
 const MOCK_TRACK_BASE: SpotifyApi.TrackObjectFull = {
@@ -62,120 +62,144 @@ export const MOCK_TRACK_NAME_1 = 'MockTrackName1'
 export const MOCK_TRACK_1: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_1,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 1'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 1',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_2 = 'MockTrackName2'
 export const MOCK_TRACK_2: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_2,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 2'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 2',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_3 = 'MockTrackName3'
 export const MOCK_TRACK_3: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_3,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 3'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 3',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_4 = 'MockTrackName4'
 export const MOCK_TRACK_4: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_4,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 4'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 4',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_5 = 'MockTrackName5'
 export const MOCK_TRACK_5: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_5,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 5'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 5',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_6 = 'MockTrackName6'
 export const MOCK_TRACK_6: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_6,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 6'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 6',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_7 = 'MockTrackName7'
 export const MOCK_TRACK_7: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_7,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 7'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 7',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_8 = 'MockTrackName8'
 export const MOCK_TRACK_8: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_8,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 8'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 8',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_9 = 'MockTrackName9'
 export const MOCK_TRACK_9: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_9,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 9'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 9',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_10 = 'MockTrackName10'
 export const MOCK_TRACK_10: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_10,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 10'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 10',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_11 = 'MockTrackName11'
 export const MOCK_TRACK_11: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_11,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 11'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 11',
+        },
+    ],
 }
 
 export const MOCK_TRACK_NAME_12 = 'MockTrackName12'
 export const MOCK_TRACK_12: SpotifyApi.TrackObjectFull = {
     ...MOCK_TRACK_BASE,
     name: MOCK_TRACK_NAME_12,
-    artists: [{
-        ...MOCK_ARTIST_BASE,
-        name: 'artist 12'
-    }]
+    artists: [
+        {
+            ...MOCK_ARTIST_BASE,
+            name: 'artist 12',
+        },
+    ],
 }
 
 const MOCK_PAGING_OBJECT_BASE: SpotifyApi.PagingObject<SpotifyApi.TrackObjectFull> =
