@@ -108,7 +108,7 @@ export async function search(
     try {
         const searchTerms = getSearchTerms(searchTerm)
         const searchTrackQueries = searchTerms.map(toSearchTrackQuery)
-        const searchResultItems = await Promise.all(searchTrackQueries)
+        const searchResultItems = await Promise.all(searchTrackQueries)        
 
         return {
             type: ApiResponseType.SUCCES,

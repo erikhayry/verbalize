@@ -36,6 +36,10 @@ interface SuccesfulSearchApiResponse {
     data: SearchResultItem[]
 }
 
+interface UnsuccesfulSearchApiResponse {
+    type: ApiResponseType.ERROR
+}
+
 describe('search', () => {
     test('track is empty if no match', async () => {
         const {
@@ -45,12 +49,22 @@ describe('search', () => {
         expect(track).toBeUndefined()
     })
 
+    test.skip('returns error', async () => {
+        fetchMock.mockReject()
+        const {
+            type
+        } = (await search('UNKNOWN')) as UnsuccesfulSearchApiResponse
+
+        expect(type).toEqual(ApiResponseType.ERROR)
+    })
+
     test('track is returend if exact match', async () => {
         const {
             data: [{ track }],
         } = (await search(MOCK_TRACK_2.name)) as SuccesfulSearchApiResponse
 
         expect(track?.name).toEqual(MOCK_TRACK_2.name)
+        expect(track?.artists[0]).toEqual(MOCK_TRACK_2.artists[0].name)
     })
 
     test('tracks are returend in order', async () => {
